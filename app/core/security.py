@@ -4,7 +4,7 @@ from app.core.config import settings
 from fastapi import HTTPException, Security
 
 
-def create_token(data:dict, expires_delta:timedelta=None):
+def create_token(data:dict, expire_minutes: int = 30):
     to_encode=data.copy()
     expire=datetime.now(timezone.utc)+  timedelta(minutes=expire_minutes)
     to_encode.update({"exp":expire})
