@@ -9,9 +9,9 @@ from sklearn.preprocessing import StandardScaler, OneHotEncoder
 from sklearn.ensemble import RandomForestRegressor
 from training.train_utils import DATA_FILE_PATH, MODEL_DIR, MODEL_PATH
 
+# --- Load Data ---
 df = (
-    pd
-    .read_csv(DATA_FILE_PATH)
+    pd.read_csv(DATA_FILE_PATH)
     .drop_duplicates()
     .drop(columns=['name', 'model', 'edition'])
 )
@@ -19,8 +19,11 @@ df = (
 X = df.drop(columns='selling_price')
 y = df.selling_price.copy()
 
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.2, random_state=42
+)
 
+# --- Feature Pipelines ---
 num_cols = X_train.select_dtypes(include='number').columns.tolist()
 cat_cols = [col for col in X_train.columns if col not in num_cols]
 
@@ -39,16 +42,27 @@ preprocessor = ColumnTransformer(transformers=[
     ('cat', cat_pipe, cat_cols)
 ])
 
+# --- Model ---
 regressor = RandomForestRegressor(
-    n_estimators=10, max_depth=5, random_state=42
+    n_estimators=10,
+    max_depth=5,
+    random_state=42
 )
 
 rf_model = Pipeline(steps=[
     ('pre', preprocessor),
     ('reg', regressor)
 ])
+
 rf_model.fit(X_train, y_train)
 
+# --- Save Model Safely ---
 os.makedirs(MODEL_DIR, exist_ok=True)
 joblib.dump(rf_model, MODEL_PATH)
+
+# Verify file actually got written
+if os.path.exists(MODEL_PATH) and os.path.getsize(MODEL_PATH) > 0:
+    print(f" Model trained and saved successfully at {MODEL_PATH}")
+else:
+    raise RuntimeError(f" Failed to save model at {MODEL_PATH}")
 
