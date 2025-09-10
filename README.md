@@ -33,8 +33,22 @@ docker-compose up --build
 
 ## 🧾 Example Request
 
-```json
+```json 
 POST /predict
+{
+  "company": "Maruti",
+  "year": 2015,
+  "owner": "First",
+  "fuel": "Petrol",
+  "seller_type": "Individual",
+  "transmission": "Manual",
+  "km_driven": 16000,
+  "mileage_mpg": 45,
+  "engine_cc": 1250,
+  "max_power_bhp": 82,
+  "torque_nm": 120,
+  "seats": 5
+}
 
 ```
 
