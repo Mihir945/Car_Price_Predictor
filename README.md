@@ -1,7 +1,7 @@
 
 # Car Price Predictor 🚗💸
 
-ML-powered API for predicting used car prices. Built with **Python**, **FastAPI**, and **scikit-learn**, packaged in **Docker** with optional **Redis caching** and **Prometheus monitoring**.
+ML-powered API for predicting used car prices. Built with **Python**, **FastAPI**, and **scikit-learn**, packaged in **Docker** with  **Redis caching** and **Prometheus monitoring**.
 
 ---
 
@@ -55,7 +55,7 @@ POST /predict
 Response:
 
 ```json
-{ "predicted_price": 350000 }
+{ "predicted_price": "515,414.13" }
 ```
 
 ---
